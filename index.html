@@ -16,11 +16,10 @@
   <meta property="og:url" content="https://lumoragrid.com" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Tailwind (CDN) — fine for a simple static page -->
+  <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* Subtle grid motif background */
     .grid-bg {
       background-image:
         linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
@@ -61,24 +60,35 @@
           and track every step—transparently and on your terms.
         </p>
 
-        <!-- CTA: choose ONE of the forms below -->
+        <!-- Waitlist (Netlify Forms) -->
         <div id="waitlist" class="mt-8 flex flex-col sm:flex-row gap-3">
-          <!-- OPTION A: Netlify form (static hosting) -->
-          <form name="waitlist" method="POST" data-netlify="true" class="glass rounded-xl p-2 flex gap-2 w-full sm:w-auto">
+          <form
+            name="waitlist"
+            method="POST"
+            data-netlify="true"
+            netlify-honeypot="bot-field"
+            action="/thanks.html"
+            class="glass rounded-xl p-2 flex gap-2 w-full sm:w-auto"
+          >
+            <!-- Required hidden fields -->
             <input type="hidden" name="form-name" value="waitlist" />
-            <input required type="email" name="email" placeholder="Enter your email"
-                   class="w-full sm:w-80 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500" />
-            <button class="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
+            <p class="hidden">
+              <label>Don’t fill this out if you’re human:
+                <input name="bot-field" />
+              </label>
+            </p>
+
+            <input
+              required
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              class="w-full sm:w-80 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
               Join Waitlist
             </button>
           </form>
-
-          <!-- OPTION B: Google Form (uncomment & replace the URL, then remove Option A)
-          <a href="https://forms.gle/REPLACE_ME" target="_blank"
-             class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
-            Join the Waitlist
-          </a>
-          -->
         </div>
 
         <p class="mt-3 text-xs text-slate-400">No spam. Just launch updates and early access invites.</p>
@@ -127,7 +137,7 @@
         <a href="https://github.com/YOUR_HANDLE" class="hover:text-slate-200">GitHub</a>
         <a href="https://www.linkedin.com/company/YOUR_HANDLE" class="hover:text-slate-200">LinkedIn</a>
         <a href="https://instagram.com/YOUR_HANDLE" class="hover:text-slate-200">Instagram</a>
-        <a href="mailto:hello@lumoragrid.com" class="hover:text-slate-200">Contact</a>
+        <a href="mailto:lumoragrid@gmail.com" class="hover:text-slate-200">Contact</a>
       </div>
     </div>
   </footer>
