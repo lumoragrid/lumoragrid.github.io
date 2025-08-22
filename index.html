@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <title>LumoraGrid — Trust the grid. Find your path.</title>
+  <meta name="description" content="LumoraGrid is your AI-powered career system: discover roles, auto-apply where allowed, and track everything in one place." />
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="LumoraGrid — Trust the grid. Find your path." />
+  <meta property="og:description" content="Your AI-powered career system." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://lumoragrid.com/og-image.png" />
+  <meta property="og:url" content="https://lumoragrid.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Tailwind (CDN) — fine for a simple static page -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Subtle grid motif background */
+    .grid-bg {
+      background-image:
+        linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+    .glass {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100 selection:bg-teal-500/30">
+  <!-- Header -->
+  <header class="px-6 py-5 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="h-9 w-9 rounded-lg bg-gradient-to-br from-teal-400 to-indigo-500 grid place-items-center font-semibold">LG</div>
+      <span class="font-semibold tracking-tight">LumoraGrid</span>
+    </div>
+    <nav class="hidden sm:flex items-center gap-6 text-sm text-slate-300">
+      <a href="#about" class="hover:text-white">About</a>
+      <a href="#benefits" class="hover:text-white">Benefits</a>
+      <a href="#waitlist" class="px-3 py-1.5 rounded-md bg-white/10 hover:bg-white/20">Join Waitlist</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden grid-bg">
+    <div class="mx-auto max-w-5xl px-6 py-20">
+      <div class="max-w-2xl">
+        <h1 class="text-4xl sm:text-5xl font-semibold tracking-tight leading-tight">
+          Trust the grid. <span class="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-indigo-400">Find your path.</span>
+        </h1>
+        <p class="mt-5 text-slate-300 text-lg">
+          LumoraGrid is your AI‑powered career system: discover roles, prepare tailored applications,
+          and track every step—transparently and on your terms.
+        </p>
+
+        <!-- CTA: choose ONE of the forms below -->
+        <div id="waitlist" class="mt-8 flex flex-col sm:flex-row gap-3">
+          <!-- OPTION A: Netlify form (static hosting) -->
+          <form name="waitlist" method="POST" data-netlify="true" class="glass rounded-xl p-2 flex gap-2 w-full sm:w-auto">
+            <input type="hidden" name="form-name" value="waitlist" />
+            <input required type="email" name="email" placeholder="Enter your email"
+                   class="w-full sm:w-80 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500" />
+            <button class="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
+              Join Waitlist
+            </button>
+          </form>
+
+          <!-- OPTION B: Google Form (uncomment & replace the URL, then remove Option A)
+          <a href="https://forms.gle/REPLACE_ME" target="_blank"
+             class="inline-flex items-center justify-center px-5 py-3 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
+            Join the Waitlist
+          </a>
+          -->
+        </div>
+
+        <p class="mt-3 text-xs text-slate-400">No spam. Just launch updates and early access invites.</p>
+      </div>
+    </div>
+
+    <!-- Decorative gradient -->
+    <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 -bottom-24 h-64 bg-gradient-to-t from-teal-500/10 to-transparent"></div>
+  </section>
+
+  <!-- Benefits -->
+  <section id="benefits" class="mx-auto max-w-5xl px-6 py-16">
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="glass rounded-xl p-6">
+        <div class="text-teal-400 font-semibold">🔎 Smart Discovery</div>
+        <p class="mt-2 text-slate-300">AI surfaces roles that fit your skills, location, and intent—globally.</p>
+      </div>
+      <div class="glass rounded-xl p-6">
+        <div class="text-teal-400 font-semibold">📝 Prepared Applications</div>
+        <p class="mt-2 text-slate-300">Tailored resumes, cover letters, and screening answers—truthful and audit‑ready.</p>
+      </div>
+      <div class="glass rounded-xl p-6">
+        <div class="text-teal-400 font-semibold">📊 Transparent Tracking</div>
+        <p class="mt-2 text-slate-300">Know what was submitted where, with receipts and status in one place.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="mx-auto max-w-4xl px-6 pb-16">
+    <div class="glass rounded-2xl p-8">
+      <h2 class="text-xl font-semibold">About LumoraGrid</h2>
+      <p class="mt-3 text-slate-300">
+        We’re building a compliant, global “apply‑on‑your‑behalf” agent. Where auto‑submit isn’t allowed,
+        we prepare and pre‑fill so you stay one click away—always in control. Built with privacy, consent,
+        and transparency at the core.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="px-6 pb-10">
+    <div class="mx-auto max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-slate-400">
+      <div>© <span id="year"></span> LumoraGrid • All rights reserved</div>
+      <div class="flex items-center gap-4">
+        <a href="https://github.com/YOUR_HANDLE" class="hover:text-slate-200">GitHub</a>
+        <a href="https://www.linkedin.com/company/YOUR_HANDLE" class="hover:text-slate-200">LinkedIn</a>
+        <a href="https://instagram.com/YOUR_HANDLE" class="hover:text-slate-200">Instagram</a>
+        <a href="mailto:hello@lumoragrid.com" class="hover:text-slate-200">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
