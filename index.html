@@ -61,15 +61,17 @@
         </p>
 
         <!-- Waitlist (Netlify Forms) -->
-        <div id="waitlist" class="mt-8 flex flex-col gap-3">
+        <div id="waitlist" class="mt-8">
+          <!-- Keep the comment OUTSIDE the tag to avoid breaking HTML -->
+          <!-- Fallback to /thanks.html if JS is disabled -->
           <form
             name="waitlist"
+            id="waitlist-form"
             method="POST"
+            action="/thanks.html"
             data-netlify="true"
             netlify-honeypot="bot-field"
-            action="/thanks.html"  <!-- fallback if JS disabled -->
-            class="glass rounded-xl p-3 sm:p-2 flex flex-col sm:flex-row gap-2 w-full sm:w-auto"
-            id="waitlist-form"
+            class="glass rounded-xl p-3 flex flex-col gap-2"
           >
             <!-- Netlify required hidden fields -->
             <input type="hidden" name="form-name" value="waitlist" />
@@ -85,44 +87,40 @@
               </label>
             </p>
 
-            <!-- Optional name -->
-            <input
-              type="text"
-              name="name"
-              placeholder="Your name (optional)"
-              class="w-full sm:w-56 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
+            <!-- Inputs row -->
+            <div class="flex flex-col sm:flex-row gap-2">
+              <input
+                type="text"
+                name="name"
+                placeholder="Your name (optional)"
+                class="w-full sm:w-56 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+              <input
+                required
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                class="w-full sm:w-72 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+              <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
+                Join Waitlist
+              </button>
+            </div>
 
-            <!-- Email -->
-            <input
-              required
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              class="w-full sm:w-72 px-3 py-2 rounded-lg bg-slate-900/70 border border-white/10 focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
-
-            <!-- Consent -->
-            <label class="flex items-start gap-2 text-xs text-slate-400 mt-1 sm:mt-0">
+            <!-- Consent beneath inputs -->
+            <label class="flex items-start gap-2 text-xs text-slate-400">
               <input type="checkbox" name="consent" required class="mt-1">
-              <span>I agree to receive LumoraGrid launch updates and early-access emails. You can unsubscribe anytime.</span>
+              <span>I agree to receive LumoraGrid launch updates and early‑access emails. You can unsubscribe anytime.</span>
             </label>
 
-            <!-- reCAPTCHA (optional): uncomment this div, then enable in Netlify → Forms settings -->
-            <!-- <div data-netlify-recaptcha="true" class="mt-1"></div> -->
-
-            <button type="submit" class="px-4 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-indigo-500 font-medium hover:opacity-90">
-              Join Waitlist
-            </button>
+            <!-- reCAPTCHA (optional):
+            <div data-netlify-recaptcha="true"></div>
+            -->
           </form>
 
-          <!-- Success message (shown by JS) -->
-          <div id="success" class="hidden text-sm text-teal-300">
-            ✅ Thanks! You’re on the waitlist — check your inbox for a confirmation.
-          </div>
-          <div id="error" class="hidden text-sm text-rose-300">
-            ⚠️ Sorry, something went wrong. Please try again or email <a class="underline" href="mailto:lumoragrid@gmail.com">lumoragrid@gmail.com</a>.
-          </div>
+          <!-- Inline messages -->
+          <p id="success" class="hidden mt-2 text-sm text-teal-300">✅ Thanks! You’re on the waitlist — check your inbox for a confirmation.</p>
+          <p id="error" class="hidden mt-2 text-sm text-rose-300">⚠️ Sorry, something went wrong. Please try again or email <a class="underline" href="mailto:lumoragrid@gmail.com">lumoragrid@gmail.com</a>.</p>
         </div>
 
         <p class="mt-3 text-xs text-slate-400">No spam. Just launch updates and early access invites.</p>
@@ -181,43 +179,39 @@
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Capture metadata on load
-    document.getElementById('submitted_at').value = new Date().toISOString();
-    document.getElementById('page_path').value = location.pathname;
+    const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+    setVal('submitted_at', new Date().toISOString());
+    setVal('page_path', location.pathname);
 
     // Capture UTM params if present
-    const params = new URLSearchParams(location.search);
-    const setIf = (id, key) => {
-      const el = document.getElementById(id);
-      if (el && params.get(key)) el.value = params.get(key);
-    };
-    setIf('utm_source', 'utm_source');
-    setIf('utm_medium', 'utm_medium');
-    setIf('utm_campaign', 'utm_campaign');
-    setIf('utm_content', 'utm_content');
+    const qp = new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k => {
+      if (qp.get(k)) setVal(k, qp.get(k));
+    });
 
-    // Enhance submit UX: post via fetch and show success inline (keeps /thanks.html as noscript fallback)
+    // Enhance submit UX (keep action="/thanks.html" as no-JS fallback)
     const form = document.getElementById('waitlist-form');
     const successEl = document.getElementById('success');
     const errorEl = document.getElementById('error');
 
-    function encode(data) {
-      return [...data.entries()].map(([k, v]) => encodeURIComponent(k) + "=" + encodeURIComponent(v)).join("&");
+    function encodeForm(fd) {
+      return [...fd.entries()]
+        .map(([k, v]) => encodeURIComponent(k) + '=' + encodeURIComponent(v))
+        .join('&');
     }
 
-    form.addEventListener('submit', function (e) {
-      // If JS disabled, this won't run and Netlify will use action="/thanks.html"
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       successEl.classList.add('hidden');
       errorEl.classList.add('hidden');
 
-      // Stamp time as close to submission as possible
-      document.getElementById('submitted_at').value = new Date().toISOString();
+      setVal('submitted_at', new Date().toISOString());
 
       const data = new FormData(form);
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode(data)
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encodeForm(data),
       })
       .then(() => {
         form.reset();
